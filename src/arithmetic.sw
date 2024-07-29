@@ -1,3 +1,3 @@
 library;
 
-mod addition;
+pub mod addition;

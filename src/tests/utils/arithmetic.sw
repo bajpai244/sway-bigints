@@ -2,7 +2,6 @@ library;
 
 use ::utils::arithmetic::{add_with_carry_u64, mac_with_carry_u64, sub_with_borrow_u64};
 
-
 // Collection of test for add_with_carry_u64
 
 #[test]

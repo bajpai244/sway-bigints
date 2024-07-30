@@ -87,7 +87,6 @@ fn test_bigint_add_assign_with_carry_0() {
     assert(carry == true);
 }
 
-
 #[test]
 fn test_bigint_mul_with_no_carry() {
     let mut a = BigInt::new(1);
@@ -143,7 +142,6 @@ fn test_bigint_sub_with_borrow() {
     assert(result.limbs.get(0).unwrap() == u64::max() - 4);
     assert(borrow == true);
 }
-
 
 #[test]
 fn test_bigint_sub_assign_with_no_borrow() {

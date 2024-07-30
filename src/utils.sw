@@ -2,7 +2,4 @@ library;
 
 pub mod arithmetic;
 
-
-pub struct C {
-
-}
+pub struct C {}

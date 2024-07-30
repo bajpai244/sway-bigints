@@ -1,6 +1,6 @@
 library;
 
-use ::utils::arithmetic::{add_with_carry_u64, mac_with_carry_u64};
+use ::utils::arithmetic::{add_with_carry_u64, mac_with_carry_u64, sub_with_borrow_u64};
 
 
 // Collection of test for add_with_carry_u64
@@ -93,4 +93,40 @@ pub fn test_mac_with_carry_and_acc_1() {
 
     assert(res == 1);
     assert(carry == 2);
+}
+
+#[test]
+pub fn test_sub_with_borrow_u64_no_borrow_0() {
+    let a = 10;
+    let b = 5;
+    let c = 0;
+
+    let (diff, borrow) = sub_with_borrow_u64(a, b, c);
+
+    assert(diff == 5);
+    assert(borrow == 0);
+}
+
+#[test]
+fn test_sub_with_borrow_u64_no_borrow_1() {
+    let a = 5;
+    let b = 10;
+    let c = 0;
+
+    let (diff, borrow) = sub_with_borrow_u64(a, b, c);
+
+    assert(diff == u64::max() - 4);
+    assert(borrow == 1);
+}
+
+#[test]
+fn test_sub_with_borrow_u64_with_borrow() {
+    let a = 5;
+    let b = 10;
+    let c = 1;
+
+    let (diff, borrow) = sub_with_borrow_u64(a, b, c);
+
+    assert(diff == u64::max() - 5);
+    assert(borrow == 1);
 }

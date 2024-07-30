@@ -3,6 +3,7 @@ library;
 use ::bigint::BigInt;
 use ::arithmetic::addition::Addition;
 use ::arithmetic::multiplication::Multiplication;
+use ::arithmetic::subtraction::Subtraction;
 
 #[test]
 fn test_bigint_new() {
@@ -113,4 +114,32 @@ fn test_bigint_mul_with_carry() {
 
     assert(result.limbs.get(0).unwrap() == u64::max() << 1);
     assert(carry.limbs.get(0).unwrap() == 1);
+}
+
+#[test]
+fn test_bigint_sub_with_no_borrow() {
+    let mut a = BigInt::new(1);
+    a.limbs.set(0, 10);
+
+    let mut b = BigInt::new(1);
+    b.limbs.set(0, 5);
+
+    let (result, borrow) = BigInt::sub_with_carry(&a, &b);
+
+    assert(result.limbs.get(0).unwrap() == 5);
+    assert(borrow == false);
+}
+
+#[test]
+fn test_bigint_sub_with_borrow() {
+    let mut a = BigInt::new(1);
+    a.limbs.set(0, 5);
+
+    let mut b = BigInt::new(1);
+    b.limbs.set(0, 10);
+
+    let (result, borrow) = BigInt::sub_with_carry(&a, &b);
+
+    assert(result.limbs.get(0).unwrap() == u64::max() - 4);
+    assert(borrow == true);
 }

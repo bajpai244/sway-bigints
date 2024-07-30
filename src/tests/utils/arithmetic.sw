@@ -96,7 +96,7 @@ pub fn test_mac_with_carry_and_acc_1() {
 }
 
 #[test]
-pub fn test_sub_with_borrow_u64_no_borrow_0() {
+pub fn test_sub_with_borrow_u64_no_borrow() {
     let a = 10;
     let b = 5;
     let c = 0;
@@ -108,7 +108,7 @@ pub fn test_sub_with_borrow_u64_no_borrow_0() {
 }
 
 #[test]
-fn test_sub_with_borrow_u64_no_borrow_1() {
+fn test_sub_with_borrow_u64_with_borrow_0() {
     let a = 5;
     let b = 10;
     let c = 0;
@@ -120,7 +120,7 @@ fn test_sub_with_borrow_u64_no_borrow_1() {
 }
 
 #[test]
-fn test_sub_with_borrow_u64_with_borrow() {
+fn test_sub_with_borrow_u64_with_borrow_1() {
     let a = 5;
     let b = 10;
     let c = 1;

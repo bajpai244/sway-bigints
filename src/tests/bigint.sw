@@ -124,7 +124,7 @@ fn test_bigint_sub_with_no_borrow() {
     let mut b = BigInt::new(1);
     b.limbs.set(0, 5);
 
-    let (result, borrow) = BigInt::sub_with_carry(&a, &b);
+    let (result, borrow) = BigInt::sub_with_borrow(&a, &b);
 
     assert(result.limbs.get(0).unwrap() == 5);
     assert(borrow == false);
@@ -138,8 +138,37 @@ fn test_bigint_sub_with_borrow() {
     let mut b = BigInt::new(1);
     b.limbs.set(0, 10);
 
-    let (result, borrow) = BigInt::sub_with_carry(&a, &b);
+    let (result, borrow) = BigInt::sub_with_borrow(&a, &b);
 
     assert(result.limbs.get(0).unwrap() == u64::max() - 4);
+    assert(borrow == true);
+}
+
+
+#[test]
+fn test_bigint_sub_assign_with_no_borrow() {
+    let mut a = BigInt::new(1);
+    a.limbs.set(0, 10);
+
+    let mut b = BigInt::new(1);
+    b.limbs.set(0, 5);
+
+    let borrow = a.sub_assign_with_borrow(&b);
+
+    assert(a.limbs.get(0).unwrap() == 5);
+    assert(borrow == false);
+}
+
+#[test]
+fn test_bigint_sub_assign_with_borrow() {
+    let mut a = BigInt::new(1);
+    a.limbs.set(0, 5);
+
+    let mut b = BigInt::new(1);
+    b.limbs.set(0, 10);
+
+    let borrow = a.sub_assign_with_borrow(&b);
+
+    assert(a.limbs.get(0).unwrap() == u64::max() - 4);
     assert(borrow == true);
 }

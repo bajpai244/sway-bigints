@@ -2,6 +2,7 @@ library;
 
 use ::bigint::BigInt;
 use ::arithmetic::addition::Addition;
+use ::arithmetic::multiplication::Multiplication;
 
 #[test]
 fn test_bigint_new() {
@@ -83,4 +84,33 @@ fn test_bigint_add_assign_with_carry_0() {
 
     assert(a.limbs.get(0).unwrap() == 0);
     assert(carry == true);
+}
+
+
+#[test]
+fn test_bigint_mul_with_no_carry() {
+    let mut a = BigInt::new(1);
+    a.limbs.set(0, 10);
+
+    let mut b = BigInt::new(1);
+    b.limbs.set(0, 10);
+
+    let (result, carry) = a.mul(&b);
+
+    assert(result.limbs.get(0).unwrap() == 100);
+    assert(carry.limbs.get(0).unwrap() == 0);
+}
+
+#[test]
+fn test_bigint_mul_with_carry() {
+    let mut a = BigInt::new(1);
+    a.limbs.set(0, u64::max());
+
+    let mut b = BigInt::new(1);
+    b.limbs.set(0, 2);
+
+    let (result, carry) = a.mul(&b);
+
+    assert(result.limbs.get(0).unwrap() == u64::max() << 1);
+    assert(carry.limbs.get(0).unwrap() == 1);
 }

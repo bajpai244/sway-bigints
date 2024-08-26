@@ -27,7 +27,7 @@ fn test_bigint_addition_with_no_carry() {
     let mut b = BigInt::new(1);
     b.limbs.set(0, 10);
 
-    let (result, carry) = BigInt::add_with_carry(&a, &b);
+    let (result, carry) = BigInt::add_with_carry(&a, &b).unwrap();
 
     assert(result.limbs.get(0).unwrap() == 20);
     assert(carry == false);
@@ -40,7 +40,7 @@ fn test_bigint_addition_with_carry_0() {
 
     let mut b = BigInt::new(1);
     b.limbs.set(0, 1);
-    let (result, carry) = BigInt::add_with_carry(&a, &b);
+    let (result, carry) = BigInt::add_with_carry(&a, &b).unwrap();
 
     assert(result.limbs.get(0).unwrap() == 0);
     assert(carry == true);
@@ -53,7 +53,7 @@ fn test_bigint_addition_with_carry_1() {
 
     let mut b = BigInt::new(1);
     b.limbs.set(0, u64::max());
-    let (result, carry) = BigInt::add_with_carry(&a, &b);
+    let (result, carry) = BigInt::add_with_carry(&a, &b).unwrap();
 
     assert(result.limbs.get(0).unwrap() == (u64::max() << 1));
     assert(carry == true);
@@ -67,7 +67,7 @@ fn test_bigint_add_assign_with_no_carry() {
     let mut b = BigInt::new(1);
     b.limbs.set(0, 10);
 
-    let carry = a.add_assign_with_carry(&b);
+    let carry = a.add_assign_with_carry(&b).unwrap();
 
     assert(a.limbs.get(0).unwrap() == 20);
     assert(carry == false);
@@ -81,7 +81,7 @@ fn test_bigint_add_assign_with_carry_0() {
     let mut b = BigInt::new(1);
     b.limbs.set(0, 1);
 
-    let carry = a.add_assign_with_carry(&b);
+    let carry = a.add_assign_with_carry(&b).unwrap();
 
     assert(a.limbs.get(0).unwrap() == 0);
     assert(carry == true);
@@ -95,7 +95,7 @@ fn test_bigint_mul_with_no_carry() {
     let mut b = BigInt::new(1);
     b.limbs.set(0, 10);
 
-    let (result, carry) = a.mul(&b);
+    let (result, carry) = a.mul(&b).unwrap();
 
     assert(result.limbs.get(0).unwrap() == 100);
     assert(carry.limbs.get(0).unwrap() == 0);
@@ -109,7 +109,7 @@ fn test_bigint_mul_with_carry() {
     let mut b = BigInt::new(1);
     b.limbs.set(0, 2);
 
-    let (result, carry) = a.mul(&b);
+    let (result, carry) = a.mul(&b).unwrap();
 
     assert(result.limbs.get(0).unwrap() == u64::max() << 1);
     assert(carry.limbs.get(0).unwrap() == 1);

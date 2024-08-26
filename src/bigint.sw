@@ -20,4 +20,8 @@ impl BigInt {
             limbs,
         }
     }
+
+    pub fn has_equal_limb_size(lhs: &BigInt, rhs: &BigInt) -> bool {
+        lhs.number_of_limbs == rhs.number_of_limbs
+    }
 }

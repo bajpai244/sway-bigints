@@ -6,11 +6,15 @@ use ::utils::arithmetic::mac_with_carry_u64;
 pub trait Multiplication {
     /// Returns the product of `self` and `other`.
     /// The first element of the tuple is the high word and the second element is the low word.
-    fn mul(ref mut self, rhs: &BigInt) -> (BigInt, BigInt);
+    fn mul(ref mut self, rhs: &BigInt) -> Option<(BigInt, BigInt)>;
 }
 
 impl Multiplication for BigInt {
-    fn mul(ref mut self, rhs: &BigInt) -> (BigInt, BigInt) {
+    fn mul(ref mut self, rhs: &BigInt) -> Option<(BigInt, BigInt)> {
+        if !BigInt::has_equal_limb_size(&self, rhs) {
+            return None;
+        }
+
         // TODO: This can be optimized even better if a MulBuffer is used!
         // take a look at arkworks for reference [here](https://github.com/arkworks-rs/algebra/blob/dcf73a5f9610ba9d16a3c8e0de0b3835e5e5d5e4/ff/src/const_helpers.rs#L36)
         let mut buffer = BigInt::new(self.number_of_limbs * 2);
@@ -52,6 +56,7 @@ impl Multiplication for BigInt {
 
             i += 1;
         }
-        (lsw, msw)
+
+        Some((lsw, msw))
     }
 }

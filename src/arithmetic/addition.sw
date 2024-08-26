@@ -4,12 +4,16 @@ use ::bigint::BigInt;
 use ::utils::arithmetic::add_with_carry_u64;
 
 pub trait Addition {
-    fn add_with_carry(lhs: &BigInt, rhs: &BigInt) -> (BigInt, bool);
-    fn add_assign_with_carry(ref mut self, rhs: &BigInt) -> bool;
+    fn add_with_carry(lhs: &BigInt, rhs: &BigInt) -> Option<(BigInt, bool)>;
+    fn add_assign_with_carry(ref mut self, rhs: &BigInt) -> Option<bool>;
 }
 
 impl Addition for BigInt {
-    fn add_with_carry(lhs: &BigInt, rhs: &BigInt) -> (BigInt, bool) {
+    fn add_with_carry(lhs: &BigInt, rhs: &BigInt) -> Option<(BigInt, bool)> {
+        if !BigInt::has_equal_limb_size(lhs, rhs) {
+            return None;
+        }
+
         let mut result = BigInt::new(lhs.number_of_limbs);
 
         let mut idx = 0;
@@ -31,10 +35,15 @@ impl Addition for BigInt {
 
             idx += 1;
         }
-        (result, carry == 1)
+
+        Some((result, carry == 1))
     }
 
-    fn add_assign_with_carry(ref mut self, rhs: &BigInt) -> bool {
+    fn add_assign_with_carry(ref mut self, rhs: &BigInt) -> Option<bool> {
+        if !BigInt::has_equal_limb_size(&self, rhs) {
+            return None;
+        }
+
         let mut idx = 0;
         let mut carry = 0;
 
@@ -54,6 +63,7 @@ impl Addition for BigInt {
 
             idx += 1;
         }
-        (carry == 1)
+
+        Some(carry == 1)
     }
 }
